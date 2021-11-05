@@ -8,12 +8,12 @@ let secondNumber;
 let operator;
 let enter = true;
 
-exitscript: while (enter) {
+while (enter) {
 
 while (true) {
     firstNumber = prompt("Enter the first number: ", 1);
     if ( isFinite( firstNumber ) ) {
-        alert(`You did enter - ${firstNumber}`);
+        alert(`You entered - ${firstNumber}`);
         break; 
     }
     else alert("You didn't enter a number! If you want to exit, click Cancel");
@@ -22,7 +22,7 @@ while (true) {
 while (true) {
     secondNumber = prompt("Enter the second number: ", 2);
     if ( isFinite( secondNumber ) ) {
-        alert(`You did enter - ${secondNumber}`);
+        alert(`You entered - ${secondNumber}`);
         break; 
     }
     else alert("You didn't enter a number! If you want to exit, click Cancel");
@@ -57,7 +57,7 @@ outer: while (true) {
             break outer;
 
         default:
-            alert("You did enter underfined operator");
+            alert("You entered indefinite operator");
             break;
     }
 }
