@@ -4,4 +4,5 @@ List of home work for Orion:
 1- module. 2-task. Difficult expressions 03/11/2021
 1- module. 3-task. Calculator with check 15/11/2021
 1- module. 4-task. Generator of random num 17/11/2021
+1- module. 5-task. Objects and methods 22/11/2021
 
