@@ -1,5 +1,13 @@
 "use strict";
 
+class InputNameError extends Error {
+    constructor( message ) {
+        super( message );
+        this.name = "InputNameError";
+    }
+
+}
+
 class Unit {
     constructor( kind, genus ) {
         this.kind = kind;
@@ -47,6 +55,7 @@ class Specialization extends Unit {
     constructor( kind, genus, combat ) {
         super( kind, genus )
         this.combat = combat;
+        this.name = 'Noname';
     }
 
     static choosePlayer( player1, player2 ) {
@@ -78,11 +87,32 @@ class Specialization extends Unit {
         
     }
 
+    get description() {
+        return this.name + this.kind + this.combat;
+    }
+
+    /**
+     * @param {string} value
+     */
+    set name( value ) {
+        if( value == '' && value == null && value == undefined && value == ' ' ) throw new InputNameError( 'Uncorrect name!' );
+        this.name = value;
+            
+    } 
+        
+
 }
 
 let soldier1 = new Specialization( 'Knight', 'People', 'close combat' );
 let soldier2 = new Specialization( 'Archer', 'People', 'ranged combat' );
-alert( soldier1 );
+
+try {
+    soldier1.name = prompt( "Enter name of unit1: ", 'Artur' );
+    soldier2.name = prompt( "Enter name of unit2: ", 'Artur' );
+} catch (err) {
+    alert( 'Undefined name of unit or '+ err.message );
+    
+}
 
 let winner;
 let turnPlayer1;
