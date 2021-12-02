@@ -3,7 +3,7 @@
 class InputNameError extends Error {
     constructor( message ) {
         super( message );
-        this.name = "InputNameError";
+        this.name = "NameError";
     }
 
 }
@@ -55,7 +55,7 @@ class Specialization extends Unit {
     constructor( kind, genus, combat ) {
         super( kind, genus )
         this.combat = combat;
-        this.name = '';
+        this.name = 'Noname';
     }
 
     static choosePlayer( player1, player2 ) {
@@ -88,25 +88,18 @@ class Specialization extends Unit {
     }
 
     get description() {
-        return this.name + this.kind + this.combat;
+        return `${this.name} ${this.kind} ${this.combat}`;
     }
-
-    /**
-     * @param {string} value
-     */
-    set name( value ) {
-        if( value == '' || value == null || value == undefined || value == ' ' ) throw new InputNameError( 'Uncorrect name!' );
-        else this.name = value;
-    } 
         
 
 }
 
 let soldier1 = new Specialization( 'Knight', 'People', 'close combat' );
 let soldier2 = new Specialization( 'Archer', 'People', 'ranged combat' );
+let nameUnit;
 
 try {
-    let nameUnit = prompt( "Enter name of unit1: ", 'Artur' );
+    nameUnit = prompt( "Enter name of unit1: ", 'Artur' );
     if( nameUnit == '' || nameUnit == null || nameUnit == undefined || nameUnit == ' ' ) throw new InputNameError( 'Uncorrect name!' );
 } catch (err) {
     alert( 'Undefined name of unit or '+ err.message );
@@ -115,6 +108,8 @@ try {
 
 soldier1.name = nameUnit;
 soldier2.name = 'Lancelot';
+
+console.log( soldier1.description );
 
 
 let winner;
