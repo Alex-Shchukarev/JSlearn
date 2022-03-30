@@ -1,11 +1,11 @@
 <template>
     <div class="card_30pt">
         <div v-if="!cityByGetting">
-            <h2>City by default</h2>
+            <h2> {{ $translate('block.cityDef', cityD) }} </h2>
             <h3><strong> {{ cityByDefault }} </strong></h3>
         </div>
         <div v-else>
-            <h2>Your current city</h2>
+            <h2> {{ $translate('block.cityCur', cityD) }} </h2>
             <h3><strong> {{ cityByGetting }} </strong></h3>
         </div>
     </div>
@@ -22,6 +22,11 @@ export default {
             type: String,
             required: true,
             default: ''
+        },
+        cityD: {
+            type: String,
+            required: true,
+            default: 'En'
         }
     }
 }

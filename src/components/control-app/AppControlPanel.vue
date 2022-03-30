@@ -3,11 +3,24 @@
         <div class="wrapper_switch">
             <img src="../../assets/dark_light.svg">
         </div>
+        <button @click="$emit('changeLang')"> {{ $translate('block.btnLang', name)}} </button>
     </div>
 </template>
 
 <script>
 export default {
-    props: ['isExist']
+    emits: ['changeLang'],
+    props: {
+        isExist: {
+            type: Boolean,
+            required: true,
+            default: false
+        },
+        name: {
+            type: String,
+            required: true,
+            default: 'En'
+        }
+    }
 }
 </script>

@@ -1,17 +1,17 @@
 
 <template>
   <div class="container">
-    <AppHeader title="Weather Forecast Application" />
-    <AppControlPanel :isExist="false"/>
-    <AppDefaultCity :city-by-default="cityDefault" :city-by-getting="currentCity" />
-    <AppSelectCity />
-    <AppControlPanel :isExist="true"/>
-    <AppInfoBlock :first-param="forecast.main.temp + ' C'" :first-title="vocabulary.temperature"
-                  :second-param="forecast.main.feels_like + ' C'" :second-title="vocabulary.feelsTemp" />
-    <AppInfoBlock :first-param="forecast.weather[0].description" :first-title="vocabulary.condition"
-                  :second-param="forecast.wind.speed + ' m/c'" :second-title="vocabulary.wind"/>
-    <AppInfoBlock :first-param="forecast.main.pressure + ' mm'" :first-title="vocabulary.pressure"
-                  :second-param="forecast.main.humidity + ' %'" :second-title="vocabulary.humidity" />
+    <AppHeader :lang="currentLang" />
+    <AppControlPanel :isExist="false" @change-lang="changeLanguage" :name="currentLang" />
+    <AppDefaultCity :city-by-default="cityDefault" :city-by-getting="currentCity" :city-d="currentLang" />
+    <AppSelectCity :name="currentLang" />
+    <AppControlPanel :isExist="true" @change-lang="changeLanguage" :name="currentLang"/>
+    <AppInfoBlock :first-param="forecast.main.temp + ' C'" :first-title="$translate('block.temperature', currentLang)"
+                  :second-param="forecast.main.feels_like + ' C'" :second-title="$translate('block.feelsTemp', currentLang)" />
+    <AppInfoBlock :first-param="forecast.weather[0].description" :first-title="$translate('block.condition', currentLang)"
+                  :second-param="forecast.wind.speed + ' m/c'" :second-title="$translate('block.wind', currentLang)" />
+    <AppInfoBlock :first-param="forecast.main.pressure + ' mm'" :first-title="$translate('block.pressure', currentLang)"
+                  :second-param="forecast.main.humidity + ' %'" :second-title="$translate('block.humidity', currentLang)" />
   </div>
 </template>
 
@@ -32,6 +32,8 @@ export default {
       isPosition: '',
       errorPosition: { code: 0, message: '' },
       paramRequest: 'q=',
+      switchLang: false,
+      currentLang: 'En',
       forecast: {
         main: { temp: 0, feels_like: 0,  },
         wind: { speed: 0 },
@@ -75,6 +77,12 @@ export default {
       this.currentCity = data.name;
       this.forecast = {...data};
     },
+    changeLanguage() {
+      this.switchLang = !this.switchLang;
+      if( this.switchLang ) { 
+        this.currentLang = 'Ru';
+      } else this.currentLang = 'En';
+    }
   },
 
   components: {

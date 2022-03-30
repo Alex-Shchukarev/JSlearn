@@ -121,6 +121,7 @@ strong,
 .bttn:hover {
     cursor: pointer;
     opacity: 0.8;
+    box-shadow: 0 0 5px lightblue;
 }
 
 ol,
