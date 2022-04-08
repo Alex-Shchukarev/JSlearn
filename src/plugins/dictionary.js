@@ -2,6 +2,8 @@ export const Ru = {
     block: {
         title: 'Приложение - Прогноз Погоды',
         btnLang: 'En',
+        themeL: 'Светлая',
+        themeD: 'Темная',
         btnGet: 'получить данные',
         cityDef: 'Город по умолчанию',
         cityCur: 'Ваш текущий город',
@@ -21,6 +23,8 @@ export const En = {
     block: {
         title: 'Weather Forecast Application',
         btnLang: 'Ru',
+        themeL: 'Light',
+        themeD: 'Dark',
         btnGet: 'get weather',
         cityDef: 'City by default',
         cityCur: 'Your current city',

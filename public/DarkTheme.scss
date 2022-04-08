@@ -1,0 +1,263 @@
+// Variables
+$mainDarkColor: #2c3e50;
+$mainLightColor: rgb(249, 250, 216); 
+
+// Mixins
+@mixin card($width: 100%, $height: auto, $borderR: 1rem, $pad: 1rem, $mb: 0.5rem ) {
+    width: $width;
+    height: $height;
+    border-radius: $borderR;
+    padding: $pad;
+    margin-bottom: $mb;
+    box-shadow: 0 0 5px lightblue;
+    text-align: center;
+    background-color: $mainDarkColor;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+// Styles
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+html {
+    font-size: 24px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Inter, Roboto, Oxygen, Fira Sans, Helvetica Neue, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: $mainLightColor;
+    background: $mainLightColor;
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 1250px;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.card_100pt {
+    @include card();
+}
+
+.card_30pt {
+    @include card(30%);
+}
+
+.card_33pt {
+    @include card(33%);
+}
+
+.card_55pt {
+    @include card(55%);
+}
+
+.card_14pt {
+    @include card(14%);
+}
+
+.header_app {
+    font-weight: 800;
+    line-height: 1.45;
+    margin: 0;
+}
+
+strong, .bold {
+    font-weight: 600;
+}
+
+.center {
+    text-align: center;
+}
+
+h1, h2, h3 {
+    font-weight: 500;
+    line-height: 1.45em;
+    text-shadow: 0px 0px 2px lightgray;
+}
+
+h2 {
+    font-size: 1.6rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 1px solid lightyellow;
+}
+
+h1 {
+    font-size: 1.8rem;
+}
+
+h3 {
+    font-size: 1.25rem;
+}
+
+hr {
+    margin: 1rem 0;
+}
+
+.form-control {
+    position: relative;
+    margin-bottom: 0.5rem;
+}
+
+.form-control label {
+    display: block;
+    margin: 0 0 0.3rem 0.3rem;
+    font-weight: 500;
+    text-align: start;
+}
+
+.form-control input {
+    margin: 0;
+    outline: none;
+    border: 2px solid lightyellow;
+    display: block;
+    width: 100%;
+    color: $mainDarkColor;
+    padding: 0.5rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-control input:active,
+.form-control input:focus {
+    transition: border 0.22s;
+    border: 2px solid $mainLightColor;
+}
+
+
+.form-control small {
+    color: #e53935;
+}
+
+.form-control.invalid input {
+    border-color: #e53935;
+}
+
+.bttn {
+    position: relative;
+    place-content: center;
+    place-items: center;
+    width: fit-content;
+    border-radius: 99px;
+    letter-spacing: 0.05em;
+    border: 1px solid $mainLightColor;
+    background-color: $mainLightColor;
+    color: $mainDarkColor;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin: 0 auto;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0.8rem;
+    white-space: nowrap;
+    font-weight: 700;
+    outline: none;
+    transition: all 0.22s;
+}
+
+.bttn:hover {
+    cursor: pointer;
+    opacity: 0.8;
+    box-shadow: 0 0 5px lightyellow;
+}
+
+@media only screen and (max-width: 767px){
+    html {
+        font-size: 12px;
+    }
+    .container {
+        max-width: 720px;
+        padding: 0 10px;
+    }
+    .card_100pt {
+        @include card(69%);
+    }
+    
+    .card_30pt {
+        @include card(34%);
+    }
+    
+    .card_55pt {
+        @include card(65%);
+    }
+
+    .card_33pt {
+        @include card(33%);
+    }
+    
+    .card_14pt {
+        @include card(30%);
+        
+    }
+    
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    html {
+        font-size: 16px;
+    }
+    .container {
+        max-width: 980px;
+        padding: 0 14px;
+    }
+    .card_100pt {
+        @include card(69%);
+    }
+    
+    .card_30pt {
+        @include card(34%);
+    }
+    
+    .card_55pt {
+        @include card(65%);
+    }
+
+    .card_33pt {
+        @include card(33%);
+    }
+    
+    .card_14pt {
+        @include card(30%);
+    }
+    
+}
+
+@media only screen and (min-width: 1025px) and (max-width: 1224px) {
+    html {
+        font-size: 20px;
+    }
+    .container {
+        max-width: 1200px;
+        padding: 0 18px;
+    }
+    
+    .card_100pt {
+        @include card();
+    }
+    
+    .card_30pt {
+        @include card(30%);
+    }
+    
+    .card_33pt {
+        @include card(33%);
+    }
+    
+    .card_55pt {
+        @include card(55%);
+    }
+    
+    .card_14pt {
+        @include card(14%);
+    }
+    
+}

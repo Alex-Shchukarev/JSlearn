@@ -2,10 +2,10 @@
 <template>
   <div class="container">
     <AppHeader :lang="currentLang" />
-    <AppControlPanel :isExist="false" @change-lang="changeLanguage" :name="currentLang" />
-    <AppDefaultCity :city-by-default="cityDefault" :city-by-getting="currentCity" :city-d="currentLang" />
-    <AppSelectCity :name="currentLang" />
-    <AppControlPanel :isExist="true" @change-lang="changeLanguage" :name="currentLang"/>
+    <AppControlPanel :isExist="displayType.firstPanel" @change-lang="changeLanguage" :name="currentLang" :theme="currentTheme" @change-theme="chngThm"/>
+    <AppShowCity :city-by-default="cityDefault" :city-by-getting="currentCity" :city-d="currentLang" :city-by-chosen="chosenCity" :get-error="errorPosition.message"/>
+    <AppSelectCity :name="currentLang" @select-city="selectCity"/>
+    <AppControlPanel :isExist="displayType.secondPanel" @change-lang="changeLanguage" :name="currentLang" :theme="currentTheme" @change-theme="chngThm"/>
     <AppInfoBlock :first-param="forecast.main.temp + ' C'" :first-title="$translate('block.temperature', currentLang)"
                   :second-param="forecast.main.feels_like + ' C'" :second-title="$translate('block.feelsTemp', currentLang)" />
     <AppInfoBlock :first-param="forecast.weather[0].description" :first-title="$translate('block.condition', currentLang)"
@@ -17,7 +17,7 @@
 
 <script>
 import AppHeader from './components/AppHeader.vue'
-import AppDefaultCity from './components/control-app/AppDefaultCity.vue'
+import AppShowCity from './components/control-app/AppShowCity.vue'
 import AppSelectCity from './components/control-app/AppSelectCity.vue'
 import AppControlPanel from './components/control-app/AppControlPanel.vue'
 import AppInfoBlock from './components/AppInfoBlock.vue'
@@ -25,33 +25,36 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      sizeWindow: null,
       cityDefault: 'Нижний Новгород',
       currentCity: '',
-      coordsDefault: { lat: 55.7878944, lot: 49.1233293 },
-      coords: { lat: null, lot: null },
+      chosenCity: '',
+      flagCity: 0,
       isPosition: '',
       errorPosition: { code: 0, message: '' },
       paramRequest: 'q=',
       switchLang: false,
       currentLang: 'En',
+      switchTheme: false,
+      currentTheme: 'Dark',
+      displayType: { firstPanel: false, secondPanel: true },
+      idTracker: null,
       forecast: {
         main: { temp: 0, feels_like: 0,  },
         wind: { speed: 0 },
-        weather: [ { description: '' } ]
-      },
-      vocabulary: {
-        temperature: 'Temperature',
-        feelsTemp: 'Fells like',
-        condition: 'Weather description',
-        wind: 'Speed of wind',
-        pressure: 'Pressure',
-        humidity: 'Humidity'
+        weather: [ { description: '' } ],
+        name: ''
       }
     }
   }, 
 
   mounted() {
+    this.measure();
     navigator.geolocation.getCurrentPosition( this.getCoordsSuccess, this.getCoordsFailure );
+  },
+
+  beforeUnmount() {
+    clearInterval( this.idTracker );
   },
 
   methods: {
@@ -59,8 +62,12 @@ export default {
       const lat = position.coords.latitude;
       const lot = position.coords.longitude;
       this.isPosition = true;
-      this.paramRequest = `lat=${lat}&lon=${lot}`;
-      this.getWeather( this.paramRequest );
+      this.flagCity = 1;
+      this.getWeather( `lat=${lat}&lon=${lot}`, this.flagCity );
+    },
+    measure() {
+      this.sizeWindow = window.innerWidth;
+      this.idTracker = setInterval( () => { this.sizeWindow = window.innerWidth }, 1000 );
     },
     getCoordsFailure( positionError ) {
       console.log('error', positionError.code, positionError.message);
@@ -69,12 +76,16 @@ export default {
           // } else if(positionError == 3) { result.innerHTML = "He удалось определить местоположение " + "в течение установленного времени. "
           // } else { result.innerHTML = "Загадочная ошибка."}
       this.isPosition = false;
-      this.paramRequest += this.cityDefault;
-      this.getWeather( this.paramRequest );
+      this.flagCity = 2;
+      this.getWeather( this.paramRequest + this.cityDefault, this.flagCity );
     },
-    async getWeather( param ) {
+    async getWeather( param, flag ) {
       let { data } = await axios.get(`https://api.openweathermap.org/data/2.5/weather?${param}&lang=ru&units=metric&appid=861920433ae1e17f7b3c0c16649d8d79`);
-      this.currentCity = data.name;
+      if( flag === 1 ) { 
+        this.currentCity = data.name 
+      } else if( flag === 3 ) {
+        this.chosenCity = data.name
+      }
       this.forecast = {...data};
     },
     changeLanguage() {
@@ -82,11 +93,37 @@ export default {
       if( this.switchLang ) { 
         this.currentLang = 'Ru';
       } else this.currentLang = 'En';
+    },
+    chngThm() {
+      this.switchTheme = !this.switchTheme;
+      if( this.switchTheme ) { 
+        this.currentTheme = 'Light';
+        this.$changeTheme( this.currentTheme );
+      } else {
+        this.currentTheme = 'Dark';
+        this.$changeTheme( this.currentTheme );
+      }
+    },
+    selectCity( city ) {
+      this.flagCity = 3;
+      this.getWeather( this.paramRequest + city, this.flagCity );
+    }
+  },
+
+  watch: {
+    sizeWindow(newValue) {
+      if( newValue < 1025 ) {
+        this.displayType.firstPanel = true;
+        this.displayType.secondPanel = false;
+      } else {
+        this.displayType.firstPanel = false;
+        this.displayType.secondPanel = true;
+      }
     }
   },
 
   components: {
-    AppHeader, AppDefaultCity, AppSelectCity, AppControlPanel, AppInfoBlock
+    AppHeader, AppShowCity, AppSelectCity, AppControlPanel, AppInfoBlock
   }
 }
 

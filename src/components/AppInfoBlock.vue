@@ -1,5 +1,5 @@
 <template>
-    <div class="card_30pt">
+    <div class="card_33pt">
         <h2> {{ firstTitle }} </h2>
         <h3> {{ firstParam }} </h3>
         <h2> {{ secondTitle }} </h2>

@@ -1,15 +1,13 @@
 <template>
-    <div :class=" isExist ? 'card_10pt' : 'card_0pt' " v-show="isExist">
-        <div class="wrapper_switch">
-            <img src="../../assets/dark_light.svg">
-        </div>
-        <button @click="$emit('changeLang')"> {{ $translate('block.btnLang', name)}} </button>
+    <div class="card_14pt" v-show="isExist">
+        <button class="bttn" @click="$emit('changeTheme')"> {{ theme === 'Dark' ? $translate('block.themeD', name) : $translate('block.themeL', name)}} </button>
+        <button class="bttn" @click="$emit('changeLang')"> {{ $translate('block.btnLang', name)}} </button>
     </div>
 </template>
 
 <script>
 export default {
-    emits: ['changeLang'],
+    emits: ['changeLang', 'changeTheme'],
     props: {
         isExist: {
             type: Boolean,
@@ -20,6 +18,11 @@ export default {
             type: String,
             required: true,
             default: 'En'
+        },
+        theme: {
+            type: String,
+            required: true,
+            default: 'Dark'
         }
     }
 }
